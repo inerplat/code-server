@@ -164,7 +164,9 @@ If you're the current release manager, follow these steps:
 
 ### Publishing a release
 
-1. Create a new branch called `v0.0.0` (replace 0s with actual version aka v4.5.0)
+1. Create a new branch called `release/v0.0.0` (replace 0s with actual version aka v4.5.0)
+   1. the npm-brew workflow filters artifacts based on the branch name so don't
+   skip this step.
 1. Run `yarn release:prep` and type in the new version (e.g., `3.8.1`)
 1. GitHub Actions will generate the `npm-package`, `release-packages` and
    `release-images` artifacts. You do not have to wait for this step to complete
@@ -174,7 +176,7 @@ If you're the current release manager, follow these steps:
 1. Bump chart version in `Chart.yaml`.
 1. Summarize the major changes in the release notes and link to the relevant
    issues.
-1. Change the @ to target the version branch. Example: `v3.9.0 @ Target: v3.9.0`
+1. Change the @ to target the version branch. Example: `v3.9.0 @ Target: release/v3.9.0`
 1. Wait for the `npm-package`, `release-packages` and `release-images` artifacts
    to build.
 1. Run `yarn release:github-assets` to download the `release-packages` artifact.

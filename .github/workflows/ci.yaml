@@ -571,7 +571,7 @@ jobs:
           sudo apt install -y caddy
 
       - name: Start Caddy
-        run: caddy start --config ./ci/Caddyfile
+        run: sudo caddy start --config ./ci/Caddyfile
 
       - name: Run end-to-end tests
         run: yarn test:e2e:proxy

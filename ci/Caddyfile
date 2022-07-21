@@ -1,7 +1,7 @@
 {
 	admin    off
 }
-:80 {
+:8000 {
         @portLocalhost header_regexp port Host ^([0-9]+)\.localhost$
         handle @portLocalhost {
                 reverse_proxy localhost:{re.port.1}

@@ -1,3 +1,6 @@
+{
+	admin    off
+}
 :80 {
         @portLocalhost header_regexp port Host ^([0-9]+)\.localhost$
         handle @portLocalhost {

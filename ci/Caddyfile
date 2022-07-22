@@ -1,13 +1,14 @@
 {
-	admin    off
+	admin    localhost:4444
 }
-:8000 {
-        @portLocalhost header_regexp port Host ^([0-9]+)\.localhost$
+:8000/ide/* {
+        uri strip_prefix /ide
+        @portLocalhost header_regexp port Host ^([0-9]+)\.localhost
         handle @portLocalhost {
                 reverse_proxy localhost:{re.port.1}
         }
-        
-        handle {        
+
+        handle {
                 respond "Bad hostname" 400
         }
 }

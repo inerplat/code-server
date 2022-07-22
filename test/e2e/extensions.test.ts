@@ -14,10 +14,10 @@ function runTestExtensionTests() {
 
 const flags = ["--extensions-dir", path.join(__dirname, "./extensions")]
 
-describe("Extensions", true, flags, {}, () => {
+describe("Extensions", flags, {}, () => {
   runTestExtensionTests()
 })
 
-describe("Extensions with --cert", true, [...flags, "--cert"], {}, () => {
+describe("Extensions with --cert", [...flags, "--cert"], {}, () => {
   runTestExtensionTests()
 })

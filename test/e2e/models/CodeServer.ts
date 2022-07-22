@@ -117,6 +117,8 @@ export class CodeServer {
         // Using port zero will spawn on a random port.
         "--bind-addr",
         "127.0.0.1:0",
+        "--auth",
+        "none",
         // Setting the XDG variables would be easier and more thorough but the
         // modules we import ignores those variables for non-Linux operating
         // systems so use these flags instead.
@@ -192,6 +194,13 @@ export class CodeServer {
       proc.kill()
     }
   }
+
+  /**
+   * Whether or not authentication is enabled.
+   */
+  authEnabled(): boolean {
+    return this.args.includes("password")
+  }
 }
 
 /**
@@ -204,11 +213,7 @@ export class CodeServer {
 export class CodeServerPage {
   private readonly editorSelector = "div.monaco-workbench"
 
-  constructor(
-    private readonly codeServer: CodeServer,
-    public readonly page: Page,
-    private readonly authenticated: boolean,
-  ) {
+  constructor(private readonly codeServer: CodeServer, public readonly page: Page) {
     this.page.on("console", (message) => {
       this.codeServer.logger.debug(message.text())
     })
@@ -241,7 +246,7 @@ export class CodeServerPage {
 
     // Only reload editor if authenticated. Otherwise we'll get stuck
     // reloading the login page.
-    if (this.authenticated) {
+    if (this.codeServer.authEnabled()) {
       await this.reloadUntilEditorIsReady()
     }
   }

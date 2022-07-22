@@ -6,7 +6,7 @@ import * as util from "util"
 import { describe, test, expect } from "./baseFixture"
 import { CodeServer } from "./models/CodeServer"
 
-describe("code-server", true, [], {}, () => {
+describe("code-server", [], {}, () => {
   // TODO@asher: Generalize this?  Could be nice if we were to ever need
   // multiple migration tests in other suites.
   const instances = new Map<string, CodeServer>()

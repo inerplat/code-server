@@ -578,7 +578,7 @@ jobs:
 
       - name: Stop Caddy
         if: always()
-        run: caddy stop
+        run: sudo caddy stop
 
       - name: Upload test artifacts
         if: always()

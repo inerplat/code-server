@@ -4,7 +4,7 @@ import { promises as fs } from "fs"
 import * as path from "path"
 import { Page } from "playwright"
 import * as util from "util"
-import { logError, plural } from "../../../src/common/util"
+import { logError, normalize, plural } from "../../../src/common/util"
 import { onLine } from "../../../src/node/util"
 import { PASSWORD, workspaceDir } from "../../utils/constants"
 import { idleTimer, tmpdir } from "../../utils/helpers"
@@ -64,7 +64,7 @@ export class CodeServer {
     // and being accessed at port.host i.e. 1337.localhost:80
     if (process.env.USE_PROXY && process.env.USE_PROXY === "1") {
       const uri = new URL(address)
-      return `${uri.port}.${uri.host}`
+      return `http://${uri.port}.${uri.hostname}:8000/ide/`
     }
 
     return address
@@ -233,7 +233,10 @@ export class CodeServerPage {
    * editor to become available.
    */
   async navigate(endpoint = "/") {
-    const to = new URL(endpoint, await this.codeServer.address())
+    const noramlizedUrl = normalize((await this.codeServer.address()) + endpoint, true)
+    const to = new URL(noramlizedUrl)
+
+    this.codeServer.logger.info(`navigating to ${to}`)
     await this.page.goto(to.toString(), { waitUntil: "networkidle" })
 
     // Only reload editor if authenticated. Otherwise we'll get stuck
